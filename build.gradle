@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.2'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+    implementation('co.elastic.clients:elasticsearch-java:8.17.1')
+    implementation('com.fasterxml.jackson.core:jackson-databind')
+//    implementation('org.apache.shiro:shiro-spring-boot-web-starter:2.0.2')
+
+    implementation(group: 'org.apache.shiro', name: 'shiro-spring', version: '2.0.2', classifier: 'jakarta') {
+        exclude group: 'org.apache.shiro', module: 'shiro-core'
+        exclude group: 'org.apache.shiro', module: 'shiro-web'
+    }
+    implementation(group: 'org.apache.shiro', name: 'shiro-core', version: '2.0.2', classifier: 'jakarta')
+    implementation(group: 'org.apache.shiro', name: 'shiro-web', version: '2.0.2', classifier: 'jakarta') {
+        exclude group: 'org.apache.shiro', module: 'shiro-core'
+    }
+
+    implementation('com.auth0:java-jwt:4.4.0')
+}
+
+test {
+    useJUnitPlatform()
+}
